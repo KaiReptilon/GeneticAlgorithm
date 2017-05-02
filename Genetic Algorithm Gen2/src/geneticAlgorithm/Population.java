@@ -18,7 +18,7 @@ public class Population {
 			// Loop and create individuals
 			for (int i = 0; i < populationSize(); i++){
 				Path newRoute = new Path();
-				newRoute.generateIndividual();
+				newRoute.generateIndividual(new PF_GA(1,1));
 				savePath(i, newRoute);
 			}
 		}

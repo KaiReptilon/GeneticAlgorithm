@@ -10,6 +10,7 @@ public class Path{
 	private int x;
 	private int y;
 	Boolean occupied = false;
+	static 	ArrayList<String> checked = new ArrayList<String>(); 
     
     public Path(){
         for (int i = 0; i < PF_GA.numberOfNodes(); i++) {
@@ -34,22 +35,131 @@ public class Path{
     	List<PF_GA> toCheck = new LinkedList<PF_GA>();
     	int x = pfga.x;
     	int y = pfga.y;
+		for(String s: checked ) {
+    		if (s.equals("(" + x + ", " + y + ") ")){
+    			return toCheck;
+    		}
+    	}
+    	if (x > 0 && y > 0 && x < PF_GA.map.length - 1){ //North
+    		for(int i = -8; i <= 8; i++){
+    			if(PF_GA.map[y-1][x-i] == 1){
+    				occupied = true;
+    			}
+    		}
+    		if (occupied == false){
+    			toCheck.add(new PF_GA(x, y-1));
+    		}
+    		occupied = false;
+    	}
     	
-    	if(x > 0 && y > 0 && x < map.length - 1){   //North
-			for(int i = -9; i <= 9; i++){
-				if(map[y-1][x-i] == 1){
+    	if(x > 0 && y > 0 && x < PF_GA.map.length + 1){   //South
+			for(int i = -8; i <= 8; i++){
+				if(PF_GA.map[y+1][x-i] == 1){
 					occupied = true;
 				}
 			}
-			if(occupied == false ){
-				toCheck.add(new PF_GA(x, y-1));
+			if(occupied == false){
+				toCheck.add(new PF_GA(x, y+1));
 			}
 			occupied = false;
-}
+    	} 
+    	
+    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1){   //West
+			for(int i = -8; i <= 8; i++){
+				if(PF_GA.map[y-i][x-1] == 1){
+					occupied = true;
+				}
+			}
+			if(occupied == false){
+				toCheck.add(new PF_GA(x-1, y));
+			}
+			occupied = false;
+    	}
+    	
+    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1){   //East
+			for(int i = -9; i <= 8; i++){
+				if(PF_GA.map[y-i][x+1] == 1){
+					occupied = true;
+				}
+			}
+			if(occupied == false){
+				toCheck.add(new PF_GA(x+1, y));
+			}
+			occupied = false;
+    	}
+    	
+    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){      //North West
+			for(int i = -8; i <= 8; i++){
+				if(PF_GA.map[y-i][x-1] == 1){
+					occupied = true;
+				}
+			}
+			for(int c = -8; c <= 8; c++){
+				if(PF_GA.map[y-1][x-c] == 1){
+					occupied = true;
+				}
+			}
+			if(occupied = false){
+				toCheck.add(new PF_GA(x-1, y-1));
+			}
+			occupied = false;
+    	}
+    	
+    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){   //North East
+			for(int i = -8; i <= 8; i++){
+				if(PF_GA.map[y-i][x+1] == 1){
+					occupied = true;
+				}
+			}
+			for(int c = -8; c <= 8; c++){
+				if(PF_GA.map[y-1][x-c] == 1){
+					occupied = true;
+				}
+			}
+			if(occupied = false){
+				toCheck.add(new PF_GA(x+1, y-1));
+			}
+			occupied = false;
+    	} 
+    	
+    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){      //South West
+			for(int i = -8; i <= 8; i++){
+				if(PF_GA.map[y-i][x+1] == 1){
+					occupied = true;
+				}
+			}
+			for(int c = -8; c <= 8; c++){
+				if(PF_GA.map[y-1][x-c] == 1){
+					occupied = true;
+				}
+			}
+			if(occupied = false){
+				toCheck.add(new PF_GA(x-1, y+1));
+			}
+			occupied = false;
+    	}
+    	
+    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){   //South East
+			for(int i = -8; i <= 8; i++){
+				if(PF_GA.map[y-i][x+1] == 1){
+					occupied = true;
+				}
+			}
+			for(int c = -8; c <= 8; c++){
+				if(PF_GA.map[y+1][x-c] == 1){
+					occupied = true;
+				}
+			}
+			if(occupied = false){
+				toCheck.add(new PF_GA(x+1, y+1));
+			}
+			occupied = false;
+		}	
+    	
+		checked.add("(" + x + ", " + y + ") ");
+		return toCheck;
     		
-        
-        // Randomly reorder the tour
-        Collections.shuffle(path);
+    	
     }
 
     // Gets a city from the tour
