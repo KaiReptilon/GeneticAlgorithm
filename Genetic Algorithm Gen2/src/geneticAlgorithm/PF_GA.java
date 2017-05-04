@@ -1,3 +1,5 @@
+//@Author Aaron Edwards Student No.: 14813558
+
 package geneticAlgorithm;
 
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ public class PF_GA {
 	
 	
 	public PF_GA(int x, int y){
-		this.x = x;
-		this.y = y;
+		PF_GA.x = x;
+		PF_GA.y = y;
 	}
 	
 	public String toString(){
@@ -38,14 +40,14 @@ public class PF_GA {
 	}
 	
 	public int getX(){
-		return this.x;
+		return PF_GA.x;
 	}
 	
 	public int getY(){
-		return this.y;
+		return PF_GA.y;
 	}
 	
-	public double Chebyshev(PF_GA node){
+	public double Heuristic(PF_GA node){
 		return new Double((Math.abs(getX() - node.getX()) + (Math.abs(getY() - node.getY()) + (1 - 2*1) * Math.min(Math.abs(getX() - node.getX()), 
 				Math.abs(getY() - node.getY())))));
 	}

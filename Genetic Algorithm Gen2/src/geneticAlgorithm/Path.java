@@ -1,3 +1,5 @@
+//@Author Aaron Edwards Student No.: 14813558
+
 package geneticAlgorithm;
 
 import java.util.*;
@@ -10,7 +12,7 @@ public class Path{
 	private int x;
 	private int y;
 	Boolean occupied = false;
-	static 	ArrayList<String> checked = new ArrayList<String>(); 
+	ArrayList<String> checked = new ArrayList<String>(); 
     
     public Path(){
         for (int i = 0; i < PF_GA.numberOfNodes(); i++) {
@@ -22,6 +24,8 @@ public class Path{
         this.path = path;
     }
     
+    
+    
     public int getX(){
 		return this.x;
 	}
@@ -30,137 +34,44 @@ public class Path{
 		return this.y;
 	}
 
-    // Creates a random individual
-    protected List <PF_GA>  generateIndividual(PF_GA pfga) {    
+    // Generates our nodes of the map to check.
+    protected List<PF_GA>  generateIndividual(PF_GA path) {    
     	List<PF_GA> toCheck = new LinkedList<PF_GA>();
-    	int x = pfga.x;
-    	int y = pfga.y;
-		for(String s: checked ) {
-    		if (s.equals("(" + x + ", " + y + ") ")){
+    			int x = path.x;
+    			int y = path.y;	
+    			for(String s: checked){
+    				if(s.equals("(" + x + ", " + y + ") ")){
+    					return toCheck;
+    				}
+    			}
+    			if(y > 0)
+    				if(PF_GA.map[y-1][x] == 0) //N
+    					toCheck.add(new PF_GA(x, y-1));
+    			if(y < PF_GA.map.length - 1)
+    				if(PF_GA.map[y+1][x] == 0) //S
+    					toCheck.add(new PF_GA(x, y+1));
+    			if(x < PF_GA.map.length - 1)
+    				if(PF_GA.map[y][x+1] == 0) //E
+    					toCheck.add(new PF_GA(x+1, y));
+
+    			if(x > 0){
+    				if(PF_GA.map[y][x-1] == 0) //W
+    					toCheck.add(new PF_GA(x-1, y));
+    				if(y < PF_GA.map.length - 1 && PF_GA.map[y+1][x-1] == 0) //SW
+    					toCheck.add(new PF_GA(x-1, y+1));
+    			}
+    			if(y > 0 && PF_GA.map[y-1][x+1] == 0){ //NE
+    					toCheck.add(new PF_GA(x+1, y-1));
+    				if(x > 0 && PF_GA.map[y-1][x-1] == 0) //NW
+    					toCheck.add(new PF_GA(x-1, y-1));
+    			}
+    			if(y < PF_GA.map.length - 1)
+    				if(x < PF_GA.map.length - 1)
+    					if(PF_GA.map[y+1][x+1] == 0) //SE
+    						toCheck.add(new PF_GA(x+1, y+1));
+    			checked.add("(" + x + ", " + y + ") ");
     			return toCheck;
     		}
-    	}
-    	if (x > 0 && y > 0 && x < PF_GA.map.length - 1){ //North
-    		for(int i = -8; i <= 8; i++){
-    			if(PF_GA.map[y-1][x-i] == 1){
-    				occupied = true;
-    			}
-    		}
-    		if (occupied == false){
-    			toCheck.add(new PF_GA(x, y-1));
-    		}
-    		occupied = false;
-    	}
-    	
-    	if(x > 0 && y > 0 && x < PF_GA.map.length + 1){   //South
-			for(int i = -8; i <= 8; i++){
-				if(PF_GA.map[y+1][x-i] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied == false){
-				toCheck.add(new PF_GA(x, y+1));
-			}
-			occupied = false;
-    	} 
-    	
-    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1){   //West
-			for(int i = -8; i <= 8; i++){
-				if(PF_GA.map[y-i][x-1] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied == false){
-				toCheck.add(new PF_GA(x-1, y));
-			}
-			occupied = false;
-    	}
-    	
-    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1){   //East
-			for(int i = -9; i <= 8; i++){
-				if(PF_GA.map[y-i][x+1] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied == false){
-				toCheck.add(new PF_GA(x+1, y));
-			}
-			occupied = false;
-    	}
-    	
-    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){      //North West
-			for(int i = -8; i <= 8; i++){
-				if(PF_GA.map[y-i][x-1] == 1){
-					occupied = true;
-				}
-			}
-			for(int c = -8; c <= 8; c++){
-				if(PF_GA.map[y-1][x-c] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied = false){
-				toCheck.add(new PF_GA(x-1, y-1));
-			}
-			occupied = false;
-    	}
-    	
-    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){   //North East
-			for(int i = -8; i <= 8; i++){
-				if(PF_GA.map[y-i][x+1] == 1){
-					occupied = true;
-				}
-			}
-			for(int c = -8; c <= 8; c++){
-				if(PF_GA.map[y-1][x-c] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied = false){
-				toCheck.add(new PF_GA(x+1, y-1));
-			}
-			occupied = false;
-    	} 
-    	
-    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){      //South West
-			for(int i = -8; i <= 8; i++){
-				if(PF_GA.map[y-i][x+1] == 1){
-					occupied = true;
-				}
-			}
-			for(int c = -8; c <= 8; c++){
-				if(PF_GA.map[y-1][x-c] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied = false){
-				toCheck.add(new PF_GA(x-1, y+1));
-			}
-			occupied = false;
-    	}
-    	
-    	if(x > 0 && y > 0 && y < PF_GA.map.length + 1 && x < PF_GA.map.length + 1){   //South East
-			for(int i = -8; i <= 8; i++){
-				if(PF_GA.map[y-i][x+1] == 1){
-					occupied = true;
-				}
-			}
-			for(int c = -8; c <= 8; c++){
-				if(PF_GA.map[y+1][x-c] == 1){
-					occupied = true;
-				}
-			}
-			if(occupied = false){
-				toCheck.add(new PF_GA(x+1, y+1));
-			}
-			occupied = false;
-		}	
-    	
-		checked.add("(" + x + ", " + y + ") ");
-		return toCheck;
-    		
-    	
-    }
 
     // Gets a city from the tour
     public PF_GA getNode(int pathPosition) {
@@ -170,16 +81,13 @@ public class Path{
     // Sets a city in a certain position within a tour
     public void setNode(int pathPosition, PF_GA node) {
         path.set(pathPosition, node);
-        // If the tours been altered we need to reset the fitness and distance
         fitness = 0;
         distance = 0;
     }
     
     // Gets the tours fitness
-    public double getFitness() {
-        if (fitness == 0) {
-            fitness = 1/(double)getDistance();
-        }
+    public double getFitness(List<PF_GA> finalPath) {
+    	fitness = finalPath.size();
         return fitness;
     }
     
@@ -196,7 +104,7 @@ public class Path{
                 else{
                     destinationNode = getNode(0);
                 }
-                pathDistance += fromNode.Chebyshev(destinationNode);
+                pathDistance += fromNode.Heuristic(destinationNode);
             }
             distance = pathDistance;
         }

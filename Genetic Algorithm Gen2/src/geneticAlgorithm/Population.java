@@ -1,9 +1,12 @@
 /*
  *Population.java
  *Manages a population of candidate paths
+ *@Author Aaron Edwards Student No.: 14813558
  */
 
 package geneticAlgorithm;
+
+import java.util.List;
 
 public class Population {
 	
@@ -43,7 +46,7 @@ public class Population {
 		}
 		return fittest;
 	}
-	
+	 
 	// Gets population size
 	public int populationSize() {
 		return paths.length;

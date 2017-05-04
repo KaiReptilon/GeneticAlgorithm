@@ -1,6 +1,7 @@
 /*
 * GA.java
 * Manages algorithms for evolving population
+* @Author Aaron Edwards Student No.: 14813558
 */
 
 package geneticAlgorithm;
